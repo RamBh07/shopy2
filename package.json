@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "generate:types": "npx sanity schema extract --config ./src/sanity/sanity.config.ts && npx sanity typegen generate --config ./src/sanity/sanity.config.ts" 
+    "generate:types": "npx sanity schema extract --config ./src/sanity/sanity.config.ts && npx sanity typegen generate --config ./src/sanity/sanity.config.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.33.5",
@@ -29,6 +29,7 @@
     "motion": "^12.23.24",
     "next": "15.5.5",
     "next-sanity": "^11.5.1",
+    "next-transpile-modules": "^10.0.1",
     "nodemailer": "^7.0.9",
     "razorpay": "^2.9.6",
     "react": "19.1.0",

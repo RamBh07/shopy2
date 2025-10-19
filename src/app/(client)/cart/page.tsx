@@ -27,7 +27,7 @@ import { Address } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import useStore from "@/store";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { ShoppingBag, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +45,7 @@ const CartPage = () => {
     } = useStore();
     const [loading, setLoading] = useState(false);
     const groupedItems = useStore((state) => state.getGroupedItems());
-    const { isSignedIn } = useAuth();
+    // const { isSignedIn } = useAuth();
 
     const [addresses, setAddresses] = useState<Address[] | null>(null);
     const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
@@ -86,6 +86,7 @@ const CartPage = () => {
     const [userName, setUserName] = useState("");
     const [amount, setAmount] = useState<number>(0);
     const { user } = useUser()
+    const { isSignedIn } = useUser()
     useEffect(() => {
         if (user) {
             setUserName(user.fullName || "")
