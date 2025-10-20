@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import SearchBar from "./searchBar";
 import CartIcon from "./cartIcon";
-import FavIcon from "../../../favIcon";
+import FavIcon from "../favIcon";
 
 import MobileMenu from "./MobileMenu";
 
