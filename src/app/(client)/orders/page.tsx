@@ -3,6 +3,7 @@ import Title from '@/components/Title'
 import { getOrder } from '@/lib/getOrders'
 
 import { currentUser } from '@clerk/nextjs/server'
+import { IndianRupee } from 'lucide-react'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -22,6 +23,7 @@ interface RazorpayOrder {
     productImage?: string;
     status: string;
     createdAt: string;
+    userEmail: string;
 }
 
 
@@ -31,12 +33,14 @@ const OrderPage = async () => {
     if (!user) {
         return
     }
-    const userName = user?.fullName
 
-    if (!userName) {
+
+    const userEmail = user?.emailAddresses[0].emailAddress
+
+    if (!userEmail) {
         console.log('no user name');
     }
-    const userOrders = await getOrder(userName!);
+    const userOrders = await getOrder(userEmail!);
     if (userOrders) {
         console.log("Fetched orders:", userOrders);
     } else {
@@ -76,7 +80,7 @@ const OrderPage = async () => {
 
                                     <div className="flex justify-between">
                                         <p className="text-gray-700">Price</p>
-                                        <p>${order.amount || 0}</p>
+                                        <p className='flex items-center-safe'><IndianRupee size={15} opacity={0.8} />{order.amount || 0}</p>
                                     </div>
 
 

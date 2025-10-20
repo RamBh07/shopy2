@@ -51,6 +51,8 @@ import crypto from "crypto";
 
 import { client } from "@/sanity/lib/client";
 
+import { currentUser } from '@clerk/nextjs/server';
+
 const generatedSignature = (
   razorpayOrderId: string,
   razorpayPaymentId: string
@@ -63,9 +65,10 @@ const generatedSignature = (
     .digest("hex");
   return sig;
 };
-
+  
+   
 export async function POST(request: NextRequest) {
-  const { orderId, razorpayPaymentId, razorpaySignature,name,amount,productName,productCategory,productBrand,productQuantity} =
+  const { orderId, razorpayPaymentId, razorpaySignature,name,amount,productName,productCategory,productBrand,productQuantity,createdAt} =
     await request.json();
 
 
@@ -76,19 +79,25 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
-      
+   const user = await currentUser()
+     if(!user){
+return
+     }
+     const userEmail_ = user?.emailAddresses[0].emailAddress
+       
   // ✅ Store order in Sanity
   const orderDoc = await client.create({
     _type: "razorpayorder",
     orderId: orderId,
     paymentId: razorpayPaymentId,
     userName: name,
+    userEmail:userEmail_,
     amount: amount,
     productName: productName,
     productCategory: productCategory,
     productBrand: productBrand,
     productQuantity: productQuantity,
-    createdAt: new Date().toISOString()
+    createdAt: createdAt
 
       });
   // Probably some database calls here to update order or add premium status to user

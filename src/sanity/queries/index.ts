@@ -5,6 +5,7 @@ import {
   BRANDS_QUERY,
   DEAL_PRODUCTS,
   GET_ALL_BLOG,
+
   LATEST_BLOG_QUERY,
   MY_ORDERS_QUERY,
   ORDER_ITEMS_QUERY,
@@ -181,4 +182,5 @@ export {
   getBlogCategories,
   getOthersBlog,
   getOrders,
+
 };

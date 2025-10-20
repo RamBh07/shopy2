@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "./Container";
 import FooterTop from "./FooterTop";
-import Logo from "./Logo";
+import Logo from "./Header/Logo";
 import SocialMedia from "./SocialMedia";
 import { SubText, SubTitle } from "./ui/text";
 import { categoriesData, quickLinksData } from "@/constants/data";

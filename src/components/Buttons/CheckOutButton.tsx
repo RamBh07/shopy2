@@ -94,6 +94,9 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity }) => {
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   const [userName, setUserName] = useState("");
+
+
+  const time = new Date().toISOString()
   const { user } = useUser()
   useEffect(() => {
     if (user) {
@@ -142,6 +145,8 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity }) => {
             amount: price,
             productName: productName,
             productQuantity: quantity,
+            createdAt: time,
+
 
           }),
         });

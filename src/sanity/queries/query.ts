@@ -81,13 +81,14 @@ const OTHERS_BLOG_QUERY = defineQuery(`*[
     "slug": slug.current,
   }
 }`);
-const ORDER_ITEMS_QUERY = `*[_type == "razorpayorder" && userName == $userName]{
+const ORDER_ITEMS_QUERY = `*[_type == "razorpayorder" && userEmail == $userEmail]{
   _id,
   orderId,
   paymentId,
   userName,
   amount,
   productName,
+  userEmail,
   productCategory,
   productBrand,
   productQuantity,
@@ -96,6 +97,12 @@ const ORDER_ITEMS_QUERY = `*[_type == "razorpayorder" && userName == $userName]{
   createdAt
 } | order(createdAt desc)`;
 
+  const GET_PRODUCT_BY_VARIANT = `
+    *[_type == "product" && variant match $variant] | order(name asc) {
+      ...,
+      "categories": categories[]->title
+    }
+  `;
 
 export {
   BRANDS_QUERY,
@@ -108,5 +115,6 @@ export {
   SINGLE_BLOG_QUERY,
   BLOG_CATEGORIES,
   OTHERS_BLOG_QUERY,
-  ORDER_ITEMS_QUERY
+  ORDER_ITEMS_QUERY,
+  GET_PRODUCT_BY_VARIANT
 };

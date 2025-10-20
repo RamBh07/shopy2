@@ -21,6 +21,11 @@ export const razorpayType= defineType({
       type: "string",
     }),
     defineField({
+      name: "userEmail",
+      title: "User Email",
+      type: "string",
+    }),
+    defineField({
       name: "amount",
       title: "Amount",
       type: "number",

@@ -2,16 +2,16 @@
 
 import useStore from "@/store";
 import { useState } from "react";
-import Container from "./Container";
+import Container from "../Container";
 import { Heart, X } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 import { Product } from "@/sanity.types";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import PriceFormatter from "./PriceFormatter";
-import AddToCartButton from "./AddToCartButton";
+import PriceFormatter from "../PriceFormatter";
+import AddToCartButton from "../Buttons/AddToCartButton";
 
 const WishListProducts = () => {
   const [visibleProducts, setVisibleProducts] = useState(7);
@@ -89,11 +89,10 @@ const WishListProducts = () => {
                         {product?.variant}
                       </td>
                       <td
-                        className={`p-2 w-24 ${
-                          (product?.stock as number) > 0
-                            ? "text-green-600"
-                            : "text-red-600"
-                        } font-medium text-sm hidden md:table-cell`}
+                        className={`p-2 w-24 ${(product?.stock as number) > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                          } font-medium text-sm hidden md:table-cell`}
                       >
                         {(product?.stock as number) > 0
                           ? "In Stock"

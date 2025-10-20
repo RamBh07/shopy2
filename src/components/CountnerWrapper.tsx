@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Counter from "./Counter";
-import CheckOutButton from "./CheckOutButton";
+import CheckOutButton from "./Buttons/CheckOutButton";
 
 type Props = {
     price: number;

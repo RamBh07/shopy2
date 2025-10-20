@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import Logo from "./Logo";
+import Logo from "./Header/Logo";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 

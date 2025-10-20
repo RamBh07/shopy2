@@ -1,20 +1,22 @@
 
 
 import React from "react";
-import Container from "./Container";
+import Container from "../Container";
 import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import SearchBar from "./searchBar";
 import CartIcon from "./cartIcon";
-import FavIcon from "./favIcon";
+import FavIcon from "../../../favIcon";
 
 import MobileMenu from "./MobileMenu";
 
-import UserIconComp from "./UserIconComp";
+
+import { ClerkLoaded, SignedIn, SignIn, UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
 
 const Header = async () => {
-
+    const user = await currentUser();
     return (
         <header className="bg-white py-5 border-b border-b-black/20">
             <Container className="flex items-center justify-between text-lightColor">
@@ -28,7 +30,12 @@ const Header = async () => {
                     <SearchBar />
                     <CartIcon />
                     <FavIcon />
-                    <UserIconComp />
+                    <ClerkLoaded>
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                        {!user && <SignIn />}
+                    </ClerkLoaded>
 
 
 

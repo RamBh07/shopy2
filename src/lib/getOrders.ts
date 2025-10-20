@@ -2,11 +2,11 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { ORDER_ITEMS_QUERY } from "@/sanity/queries/query";
 
-export const getOrder = async (userName: string) => {
+export const getOrder = async (userEmail: string) => {
   try {
     const order = await sanityFetch({
       query: ORDER_ITEMS_QUERY,
-      params: { userName },
+      params: { userEmail },
     });
     return order?.data || null;
   } catch (error) {

@@ -312,6 +312,13 @@
         },
         "optional": true
       },
+      "userEmail": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "amount": {
         "type": "objectAttribute",
         "value": {

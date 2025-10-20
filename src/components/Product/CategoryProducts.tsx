@@ -2,11 +2,11 @@
 import { Category, Product } from "@/sanity.types";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 import { AnimatePresence, motion } from "motion/react";
 import { Loader2 } from "lucide-react";
-import NoProductAvailable from "./NoProductAvailable";
+import NoProductAvailable from "../NoProductAvailable";
 import ProductCard from "./ProductCard";
 interface Props {
   categories: Category[];

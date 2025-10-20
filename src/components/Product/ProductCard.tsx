@@ -5,11 +5,11 @@ import React from "react";
 import Link from "next/link";
 import { StarIcon } from "@sanity/icons";
 import { Flame } from "lucide-react";
-import AddToWishlist from "./AddToWishlist";
-import Title from "./Title";
-import PriceView from "./PriceView";
-import AddToCartButton from "./AddToCartButton";
-import CheckoutButton from "./CheckOutButton";
+import AddToWishlist from "../AddToWishlist";
+import Title from "../Title";
+import PriceView from "../PriceView";
+import AddToCartButton from "../Buttons/AddToCartButton";
+import CheckoutButton from "../Buttons/CheckOutButton";
 
 
 const ProductCard = ({ product }: { product: Product }) => {

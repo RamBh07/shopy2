@@ -1,6 +1,6 @@
 'use client'
 import React, { FC, useEffect, useRef } from 'react'
-import Logo from './Logo';
+import Logo from './Header/Logo';
 import { X } from 'lucide-react';
 import { headerData } from '@/constants/data';
 

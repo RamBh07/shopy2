@@ -1,12 +1,12 @@
 
-import AddToCartButton from "@/components/AddToCartButton";
+import AddToCartButton from "@/components/Buttons/AddToCartButton";
 
 import Container from "@/components/Container";
 import CounterWrapper from "@/components/CountnerWrapper";
 
 import ImageView from "@/components/ImageView";
 import PriceView from "@/components/PriceView";
-import ProductCharacteristics from "@/components/ProductCharacteristics";
+import ProductCharacteristics from "@/components/Product/ProductCharacteristics";
 
 import { getProductBySlug } from "@/sanity/queries";
 

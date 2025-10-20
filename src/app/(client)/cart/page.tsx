@@ -10,7 +10,7 @@ import EmptyCart from "@/components/EmptyCart";
 import NoAccess from "@/components/NoAccess";
 import PriceFormatter from "@/components/PriceFormatter";
 
-import QuantityButtons from "@/components/QuantityButtons";
+import QuantityButtons from "@/components/Buttons/QuantityButtons";
 import Title from "@/components/Title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

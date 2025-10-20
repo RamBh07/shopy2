@@ -60,6 +60,7 @@ export type Razorpayorder = {
   orderId?: string;
   paymentId?: string;
   userName?: string;
+  userEmail?: string;
   amount?: number;
   productName?: string;
   productCategory?: string;
