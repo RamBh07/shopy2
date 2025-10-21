@@ -45,10 +45,23 @@ export interface CashfreeInstance {
 // ------------------------------
 // Add Cashfree to Window
 // ------------------------------
+  
 declare global {
+  interface CashfreeCheckoutOptions {
+    paymentSessionId: string;
+    redirectTarget?: "_self" | "_blank";
+  }
+
+  interface CashfreeGlobal {
+    checkout(options: CashfreeCheckoutOptions): Promise<void>;
+  }
+
   interface Window {
-    Cashfree?: new (config: CashfreeConfig) => CashfreeInstance;
+    Cashfree?: CashfreeGlobal;
   }
 }
+
+export {};
+
 
 export {};

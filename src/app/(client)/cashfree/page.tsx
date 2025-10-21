@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CashfreeInstance } from "@/app/types/cashfree";
 
-type CashfreeConstructor = new (config: { mode: string }) => {
-    checkout(options: { paymentSessionId: string; redirectTarget?: string }): Promise<void>;
-};
+interface CreateOrderResponse {
+    payment_session_id: string;
+}
 
 export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
@@ -16,12 +15,8 @@ export default function CheckoutPage() {
         script.src = "https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js";
         script.async = true;
 
-        script.onload = () => {
-            console.log("Cashfree SDK Loaded");
-            setSdkLoaded(true);
-        };
-
-        script.onerror = () => console.error("Failed to load Cashfree SDK");
+        script.onload = () => setSdkLoaded(true);
+        script.onerror = () => console.error("Cashfree SDK failed to load");
 
         document.body.appendChild(script);
 
@@ -31,30 +26,22 @@ export default function CheckoutPage() {
     }, []);
 
     const handlePayment = async () => {
-        if (!sdkLoaded) {
-            alert("SDK not loaded yet!");
+        if (!sdkLoaded || !window.Cashfree) {
+            alert("Cashfree SDK not loaded yet");
             return;
         }
 
         setLoading(true);
         try {
-            const { data } = await axios.post("/api/cashfree/token", {
+            const { data } = await axios.post<CreateOrderResponse>("/api/cashfree/token", {
                 orderAmount: 1,
                 customerName: "John Doe",
                 customerEmail: "john@example.com",
                 customerPhone: "9999999999",
             });
-            console.log(data);
-            if (!window.Cashfree) {
-                alert("Cashfree SDK not loaded!");
-                return;
-            }
 
-            const CashfreeClass = window.Cashfree as unknown as CashfreeConstructor;
-            const cashfree = new CashfreeClass({ mode: process.env.NEXT_PUBLIC_CASHFREE_MODE! });
-
-
-            await cashfree.checkout({
+            // ✅ Directly call checkout on window.Cashfree
+            await window.Cashfree.checkout({
                 paymentSessionId: data.payment_session_id,
                 redirectTarget: "_self",
             });
