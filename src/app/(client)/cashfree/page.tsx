@@ -44,16 +44,14 @@ export default function CheckoutPage() {
                 customerEmail: "john@example.com",
                 customerPhone: "9999999999",
             });
-
+            console.log(data);
             if (!window.Cashfree) {
                 alert("Cashfree SDK not loaded!");
                 return;
             }
 
-            const CashfreeClass = window.Cashfree!;
-            const cashfree: CashfreeInstance = new CashfreeClass({
-                mode: process.env.NEXT_PUBLIC_CASHFREE_MODE!,
-            });
+            const CashfreeClass = window.Cashfree as unknown as CashfreeConstructor;
+            const cashfree = new CashfreeClass({ mode: process.env.NEXT_PUBLIC_CASHFREE_MODE! });
 
 
             await cashfree.checkout({
