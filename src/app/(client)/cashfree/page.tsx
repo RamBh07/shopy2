@@ -1,108 +1,74 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { CashfreePayResponse } from './../../types/cashfree.d';
+"use client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-declare global {
-    interface Window {
-        Cashfree?: {
-            pay: (options: {
-                paymentSessionId: string;
-                redirectTarget?: '_self' | '_blank';
-                onSuccess?: (response: CashfreePayResponse) => void;
-                onFailure?: (error: unknown) => void;
-            }) => void;
-        };
-    }
-}
 
-export default function HomePage() {
-    const [sdkLoaded, setSdkLoaded] = useState(false);
+
+export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src = 'https://sdk.cashfree.com/js/ui/2.0.0/cashfree.js';
+        const script = document.createElement("script");
+        script.src = "https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js";
         script.async = true;
-
-        script.onload = () => {
-            console.log('✅ Cashfree SDK loaded');
-            if (window.Cashfree && typeof window.Cashfree.pay === 'function') {
-                setSdkLoaded(true); // ✅ Mark SDK as ready
-            } else {
-                console.error('❌ Cashfree SDK loaded but pay() is missing');
-            }
-        };
-
-        script.onerror = () => {
-            console.error('❌ Failed to load Cashfree SDK');
-        };
-
+        script.onload = () => console.log("✅ Cashfree SDK loaded");
+        script.onerror = () => console.error("❌ Failed to load Cashfree SDK");
         document.body.appendChild(script);
 
+        // ✅ Correct cleanup
         return () => {
             document.body.removeChild(script);
         };
     }, []);
 
-    const makePayment = async () => {
-        if (!sdkLoaded) return alert('Cashfree SDK not loaded yet!');
 
+    const handlePayment = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/cashfree/token', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    orderId: 'order_' + Date.now(),
-                    orderAmount: 10,
-                    customerName: 'John Doe',
-                    customerPhone: '9999999999',
-                    customerEmail: 'john@example.com',
-                }),
+            const { data } = await axios.post("/api/cashfree/token", {
+                orderAmount: 1,
+                customerName: "John Doe",
+                customerEmail: "john@example.com",
+                customerPhone: "9999999999",
             });
 
-            const data = await res.json();
-            console.log('✅ Token response:', data);
+            if (!data.payment_session_id) {
+                throw new Error("No payment_session_id from server");
+            }
 
-            if (!data.order_token) {
-                alert('Payment token generation failed!');
+            if (!window.Cashfree) {
+                alert("Cashfree SDK not loaded yet!");
                 return;
             }
 
-            window.Cashfree?.pay({
-                paymentSessionId: data.order_token,
-                redirectTarget: '_self',
-                onSuccess: (res) => {
-                    console.log('✅ Payment Success:', res);
-                    alert('Payment Success!');
-                },
-                onFailure: (err) => {
-                    console.error('❌ Payment Failed:', err);
-                    alert('Payment Failed!');
-                },
+            const cashfree = new window.Cashfree!({
+                mode: process.env.NEXT_PUBLIC_CASHFREE_MODE!,
             });
+
+            cashfree
+                .checkout({
+                    paymentSessionId: data.payment_session_id,
+                    redirectTarget: "_self",
+                })
+                .then(() => console.log("Payment flow initiated"))
+                .catch((err: unknown) => console.error("Payment failed:", err));
         } catch (err) {
-            console.error('❌ Payment error:', err);
-            alert('Payment error! Check console');
+            console.error("Error initiating payment:", err);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="p-10 text-center">
-            <h1 className="text-2xl font-bold mb-4">Cashfree Live Payment Demo</h1>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <h1 className="text-2xl font-bold mb-4">Cashfree Live Payment</h1>
             <button
-                onClick={makePayment}
-                disabled={!sdkLoaded || loading}
-                className={`px-6 py-3 rounded-md text-white ${sdkLoaded ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'
-                    }`}
+                onClick={handlePayment}
+                disabled={loading}
+                className="bg-green-500 text-white px-6 py-2 rounded-md"
             >
-                {loading ? 'Processing...' : sdkLoaded ? 'Pay Now' : 'Loading SDK...'}
+                {loading ? "Processing..." : "Pay ₹1"}
             </button>
-            {!sdkLoaded && (
-                <p className="mt-2 text-red-600">Cashfree SDK failed to initialize properly</p>
-            )}
         </div>
     );
 }

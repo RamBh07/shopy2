@@ -41,7 +41,7 @@ export interface CashfreeUI {
 // ------------------------------
 declare global {
   interface Window {
-    Cashfree?: CashfreeUI;
+    Cashfree?: new (config: CashfreeConfig) => CashfreeInstance;
   }
 }
 
