@@ -11,8 +11,9 @@ import FavIcon from "../favIcon";
 import MobileMenu from "./MobileMenu";
 
 
-import { ClerkLoaded, SignedIn, SignIn, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
+import SignIn from "../SignIn";
 
 
 const Header = async () => {

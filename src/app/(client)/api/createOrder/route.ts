@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const options = {
+      
       amount: body.amount, // amount in paise
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
