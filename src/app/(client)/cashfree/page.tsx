@@ -38,7 +38,7 @@ export default function CheckoutPage() {
 
         setLoading(true);
         try {
-            const { data } = await axios.post("/api/createOrder", {
+            const { data } = await axios.post("/api/cashfree/token", {
                 orderAmount: 1,
                 customerName: "John Doe",
                 customerEmail: "john@example.com",
