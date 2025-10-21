@@ -30,7 +30,7 @@ export default function PaymentPage() {
             console.log('Session Token:', data.token);
 
             cashfree.pay({
-                paymentSessionId: data.id,
+                paymentSessionId: data.token,
                 redirectTarget: '_self',
                 onSuccess: (data) => console.log('✅ Payment Success:', data),
                 onFailure: (err) => console.error('❌ Payment Failed:', err),
@@ -45,7 +45,7 @@ export default function PaymentPage() {
             <h1 className="text-2xl font-bold mb-4">Cashfree Live Payment</h1>
             <button
                 onClick={handlePayment}
-                disabled={!isReady}
+
                 className={`px-6 py-3 rounded-md text-white ${isReady ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'
                     }`}
             >
