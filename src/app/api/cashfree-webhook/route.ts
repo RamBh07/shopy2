@@ -1,18 +1,24 @@
 import { NextResponse } from "next/server";
+import { createHmac } from "crypto";
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
+    const signature = req.headers.get("x-webhook-signature");
 
-    // Cashfree sends order_id, reference_id, order_amount, order_status etc.
-    console.log("Cashfree Webhook Data:", data);
+    if (!signature) return NextResponse.json({ status: "error", message: "Missing signature" }, { status: 400 });
 
-    // Verify signature if needed (optional, recommended for security)
-    // const signature = req.headers.get("x-webhook-signature");
+    const keys = Object.keys(data).sort();
+    let payload = "";
+    keys.forEach(key => payload += data[key]);
 
-    // TODO: Update your database order status here
-    // Example: mark order as PAID if data.order_status === "PAID"
+    const hmac = createHmac("sha256", process.env.CASHFREE_SECRET_KEY!);
+    hmac.update(payload);
+    const calculated = hmac.digest("hex");
 
+    if (calculated !== signature) return NextResponse.json({ status: "error", message: "Invalid signature" }, { status: 400 });
+
+    console.log("Webhook verified:", data);
     return NextResponse.json({ status: "ok" });
   } catch (err) {
     console.error("Webhook error:", err);
