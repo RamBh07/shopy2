@@ -20,6 +20,9 @@ export async function GET() {
         customer_email: 'user@example.com',
         customer_phone: '9876543210',
       },
+      order_meta: {
+    return_url: 'https://shopy345.netlify.app/payment-success?order_id={order_id}', // ✅ Required in live mode
+  },
     }),
   });
 
