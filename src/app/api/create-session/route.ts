@@ -24,10 +24,10 @@ export async function GET() {
   });
 
   const data = await response.json();
-
+console.log(data);
   if (!response.ok) {
     return NextResponse.json({ error: data.message || 'Failed to create order' }, { status: 500 });
   }
 
-  return NextResponse.json({ id: data.payment_session_id });
+  return NextResponse.json({ token: data.order_token });
 }

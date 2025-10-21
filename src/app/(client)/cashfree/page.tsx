@@ -5,26 +5,39 @@ import { load, Cashfree } from '@cashfreepayments/cashfree-js';
 
 export default function PaymentPage() {
     const [cashfree, setCashfree] = useState<Cashfree | null>(null);
+    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
         const initCashfree = async () => {
-            const cf = await load({ mode: 'production' });
-            setCashfree(cf);
+            try {
+                const cf = await load({ mode: 'production' }); // Use 'sandbox' for testing
+                console.log('✅ Cashfree SDK loaded:', cf);
+                setCashfree(cf);
+                setIsReady(typeof cf.pay === 'function');
+            } catch (error) {
+                console.error('❌ Failed to load Cashfree SDK:', error);
+            }
         };
         initCashfree();
     }, []);
 
     const handlePayment = async () => {
-        if (!cashfree) return;
+        if (!cashfree || !isReady) return;
 
-        const paymentSessionId = await fetch('/api/create-session').then(res => res.json());
+        try {
+            const res = await fetch('/api/create-session');
+            const data = await res.json();
+            console.log('Session Token:', data.token);
 
-        cashfree.pay({
-            paymentSessionId: paymentSessionId.id,
-            redirectTarget: '_self',
-            onSuccess: (data) => console.log('Success:', data),
-            onFailure: (err) => console.error('Failure:', err),
-        });
+            cashfree.pay({
+                paymentSessionId: data.id,
+                redirectTarget: '_self',
+                onSuccess: (data) => console.log('✅ Payment Success:', data),
+                onFailure: (err) => console.error('❌ Payment Failed:', err),
+            });
+        } catch (error) {
+            console.error('❌ Error during payment:', error);
+        }
     };
 
     return (
@@ -32,10 +45,11 @@ export default function PaymentPage() {
             <h1 className="text-2xl font-bold mb-4">Cashfree Live Payment</h1>
             <button
                 onClick={handlePayment}
-                disabled={!cashfree}
-                className={`px-6 py-3 rounded-md text-white ${cashfree ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'}`}
+                disabled={!isReady}
+                className={`px-6 py-3 rounded-md text-white ${isReady ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'
+                    }`}
             >
-                {cashfree ? 'Pay Now' : 'Loading SDK...'}
+                {isReady ? 'Pay Now' : 'Loading SDK...'}
             </button>
         </div>
     );
