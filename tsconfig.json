@@ -21,7 +21,11 @@
     "paths": {
       "@/*": ["./src/*"],     // for all files in src/
       "@/sanity.types": ["./sanity.types"]  // ✅ for direct root import
-    }
+    },
+
+
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

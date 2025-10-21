@@ -8,6 +8,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <html lang="en">
                 <body className="font-poppins antialiased">
                     <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+
+
+
                     {children}
                     <Toaster position="bottom-right" />
                 </body>
