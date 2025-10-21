@@ -36,6 +36,12 @@ export interface CashfreeUI {
   pay: (options: CashfreePayOptions) => void;
 }
 
+export interface CashfreeConfig {
+  mode: string; // "SANDBOX" | "PROD"
+}
+export interface CashfreeInstance {
+  checkout(options: { paymentSessionId: string; redirectTarget?: string }): Promise<void>;
+}
 // ------------------------------
 // Add Cashfree to Window
 // ------------------------------

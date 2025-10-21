@@ -1,57 +1,65 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CashfreeInstance } from "@/app/types/cashfree";
 
-
+type CashfreeConstructor = new (config: { mode: string }) => {
+    checkout(options: { paymentSessionId: string; redirectTarget?: string }): Promise<void>;
+};
 
 export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
+    const [sdkLoaded, setSdkLoaded] = useState(false);
 
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js";
         script.async = true;
-        script.onload = () => console.log("✅ Cashfree SDK loaded");
-        script.onerror = () => console.error("❌ Failed to load Cashfree SDK");
+
+        script.onload = () => {
+            console.log("Cashfree SDK Loaded");
+            setSdkLoaded(true);
+        };
+
+        script.onerror = () => console.error("Failed to load Cashfree SDK");
+
         document.body.appendChild(script);
 
-        // ✅ Correct cleanup
         return () => {
-            document.body.removeChild(script);
+            if (document.body.contains(script)) document.body.removeChild(script);
         };
     }, []);
 
-
     const handlePayment = async () => {
+        if (!sdkLoaded) {
+            alert("SDK not loaded yet!");
+            return;
+        }
+
         setLoading(true);
         try {
-            const { data } = await axios.post("/api/cashfree/token", {
+            const { data } = await axios.post("/api/createOrder", {
                 orderAmount: 1,
                 customerName: "John Doe",
                 customerEmail: "john@example.com",
                 customerPhone: "9999999999",
             });
 
-            if (!data.payment_session_id) {
-                throw new Error("No payment_session_id from server");
-            }
-
             if (!window.Cashfree) {
-                alert("Cashfree SDK not loaded yet!");
+                alert("Cashfree SDK not loaded!");
                 return;
             }
 
-            const cashfree = new window.Cashfree!({
+            const CashfreeClass = window.Cashfree!;
+            const cashfree: CashfreeInstance = new CashfreeClass({
                 mode: process.env.NEXT_PUBLIC_CASHFREE_MODE!,
             });
 
-            cashfree
-                .checkout({
-                    paymentSessionId: data.payment_session_id,
-                    redirectTarget: "_self",
-                })
-                .then(() => console.log("Payment flow initiated"))
-                .catch((err: unknown) => console.error("Payment failed:", err));
+
+            await cashfree.checkout({
+                paymentSessionId: data.payment_session_id,
+                redirectTarget: "_self",
+            });
         } catch (err) {
             console.error("Error initiating payment:", err);
         } finally {
@@ -64,7 +72,7 @@ export default function CheckoutPage() {
             <h1 className="text-2xl font-bold mb-4">Cashfree Live Payment</h1>
             <button
                 onClick={handlePayment}
-                disabled={loading}
+                disabled={loading || !sdkLoaded}
                 className="bg-green-500 text-white px-6 py-2 rounded-md"
             >
                 {loading ? "Processing..." : "Pay ₹1"}
