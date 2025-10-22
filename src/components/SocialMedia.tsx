@@ -1,4 +1,4 @@
-import { Facebook, Github, Linkedin, Slack, Youtube } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Slack, Twitter, X, Youtube } from 'lucide-react'
 import React from 'react'
 import {
     Tooltip,
@@ -8,23 +8,24 @@ import {
 } from "@/components/ui/tooltip"
 
 import { cn } from '@/lib/utils'
+import { FaWhatsapp } from 'react-icons/fa'
 
 
 const socialLink = [
     {
         title: "Youtube",
-        href: 'https:',
+        href: 'https://www.youtube.com/@bhigurammahato7228',
         icon: <Youtube className='w-5 h-5' />
     },
     {
-        title: "Github",
-        href: 'https:',
-        icon: <Github className='w-5 h-5' />
+        title: "Instagram",
+        href: 'https://www.instagram.com/v_ram09/',
+        icon: <Instagram className='w-5 h-5' />
     },
     {
-        title: "Linkdin",
+        title: "X",
         href: 'https:',
-        icon: <Linkedin className='w-5 h-5' />
+        icon: <Twitter className='w-5 h-5' />
     },
     {
         title: "Facebook",
@@ -32,9 +33,9 @@ const socialLink = [
         icon: <Facebook className='w-5 h-5' />
     },
     {
-        title: "Slack",
+        title: "Whatsapp",
         href: 'https://www.youtube.com/',
-        icon: <Slack className='w-5 h-5' />
+        icon: <FaWhatsapp className='w-5 h-5' />
     },
 ]
 

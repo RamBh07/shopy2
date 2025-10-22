@@ -1,22 +1,36 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { client } from "@/sanity/lib/client";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+      const {  razorpayPaymentId, name,amount,productName,productCategory,productBrand,productQuantity,createdAt,orderAmount,customerName,customerEmail,customerPhone} =
+    await req.json();
+  const user = await currentUser()
+         if(!user){
+    return
+         }
+         const userEmail_ = user?.emailAddresses[0].emailAddress
+         const userName_=user.fullName
+   
     const orderId = "order_" + Date.now();
 
     const response = await axios.post(
       "https://api.cashfree.com/pg/orders",
       {
         order_id: orderId,
-        order_amount: body.orderAmount,
+        order_amount: orderAmount,
         order_currency: "INR",
         customer_details: {
           customer_id: "cust_" + Date.now(),
-          customer_name: body.customerName,
-          customer_email: body.customerEmail,
-          customer_phone: body.customerPhone,
+          customer_name: userName_,
+          customer_email: userEmail_,
+          customer_phone: customerPhone,
+        productName: productName,
+      
+        productQuantity: productQuantity,
+          
         },
         order_meta: {
           return_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment-status?order_id={order_id}`,
@@ -32,7 +46,24 @@ export async function POST(req: Request) {
         },
       }
     );
-
+     
+      // ✅ Store order in Sanity
+     const orderDoc= await client.create({
+        _type: "razorpayorder",
+        orderId: orderId,
+        paymentId: razorpayPaymentId,
+        userName: userName_,
+        userEmail:userEmail_,
+        amount: amount,
+        productName: productName,
+        productCategory: productCategory,
+        productBrand: productBrand,
+        productQuantity: productQuantity,
+        createdAt: createdAt
+    
+          });
+          console.log(orderDoc + "Orderdoc here is");
+console.log(response);
     return NextResponse.json(response.data);
   } catch (err) {
 console.log(err);

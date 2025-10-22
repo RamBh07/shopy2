@@ -19,6 +19,7 @@ export default function PaymentStatusPage() {
                 },
             })
             .then((res) => {
+                console.log(res);
                 setStatus(res.data.order_status);
             })
             .catch(() => setStatus("Error fetching status"));

@@ -31,7 +31,7 @@ const AddToCartButton = ({ product }: Props) => {
   return (
     <div className="w-full h-12 flex items-center">
       {itemCount ? (
-        <div className="text-sm w-full">
+        <div className="text-sm h-12 w-full">
           <div className="flex items-center justify-between">
             <span className="text-xs text-darkColor/80">Quantity</span>
             <QuantityButtons product={product} />
@@ -48,7 +48,7 @@ const AddToCartButton = ({ product }: Props) => {
           onClick={handleAddToCart}
           disabled={isOutOfStock}
           className={cn(
-            "w-full bg-shop_dark_green/80 text-lightBg shadow-none border border-shop_dark_green/80 font-semibold tracking-wide text-white hover:bg-shop_dark_green hover:border-shop_dark_green hoverEffect",
+            "w-full bg-shop_dark_green/80 text-lightBg shadow-none border border-shop_dark_green/80 font-semibold tracking-wide text-white hover:bg-shop_dark_green hover:border-shop_dark_green hoverEffect"
 
           )}
         >

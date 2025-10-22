@@ -2,15 +2,16 @@ import React from "react";
 import { Title } from "../ui/text";
 import Link from "next/link";
 import Image from "next/image";
-import { banner_1 } from "@/images";
+
+
 
 const HomeBanner = () => {
   return (
-    <div className="py-16 md:py-0 bg-shop_light_pink rounded-lg px-10 lg:px-24 flex items-center justify-between">
+    <div className="py-5 md:py-0 bg-shop_light_pink rounded-lg px-10 lg:px-24 flex items-center justify-between mt-5 flex-col md:flex-row">
       <div className="space-y-5">
         <Title>
           Grab Upto 50% off on <br />
-          Selected headphone
+          Selected Groceries Product
         </Title>
         <Link
           href={"/shop"}
@@ -19,11 +20,13 @@ const HomeBanner = () => {
           Buy Now
         </Link>
       </div>
-      <div>
+      <div className="">
         <Image
-          src={banner_1}
-          alt="banner_1"
-          className="hidden md:inline-flex w-96"
+          src={'/banner/banner_2-removebg-preview.png'}
+          width={400}
+          height={400}
+          alt="banner_2"
+          className="md:inline-flex"
         />
       </div>
     </div>
