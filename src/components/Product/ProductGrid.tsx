@@ -43,20 +43,17 @@ const ProductGridClient = () => {
                 </div>
             ) : products?.length ? (
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
-                    <AnimatePresence mode="popLayout">
-                        {products.map((product) => (
-                            <motion.div
-                                key={product._id}
 
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <ProductCard product={product} />
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                    {products.map((product) => (
+                        <div
+                            key={product._id}
+
+
+                        >
+                            <ProductCard product={product} />
+                        </div>
+                    ))}
+
                 </div>
             ) : (
                 <NoProductAvailable selectedTab={selectedTab} />
