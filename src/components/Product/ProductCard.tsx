@@ -74,7 +74,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           discount={product?.discount}
           className="text-sm"
         />
-        <AddToCartButton product={product} className="w-36 rounded-full" />
+        {/* <AddToCartButton product={product} className="w-36 rounded-full" /> */}
         <CheckoutButton price={product.price!} productName={product.name!} quantity={0} />
       </div>
 
