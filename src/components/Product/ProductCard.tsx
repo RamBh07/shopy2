@@ -23,15 +23,15 @@ const ProductCard = ({ product }: { product: Product }) => {
           <Image src={urlFor(product.images[0]).url()} alt={"ProductImae"} width={700} height={700} loading="lazy" />
         </Link>}
         <AddToWishlist product={product} />
-        {product.status === 'sale' && (<p className="absolute top-2 left-2 z-10 text-xs border border-darkColor/50 px-2 rounded-full group-hover:border-lightGreen hover:text-shop_dark_green hoverEffect">
+        {product.status === 'sale' && (<p className="absolute top-2 left-2 z-10 text-xs border border-darkColor/50 px-2 rounded-full group-hover:border-lightGreen hover:text-shop_dark_green ">
           Sale!
         </p>)}
         {product.status === 'hot' && (
-          <Link href={'/deal'} className="absolute top-2 left-2 z-10 border border-shop_orange/50 p-1 rounded-full group-hover:border-shop_orange hover:text-shop_dark_green hoverEffect">
+          <Link href={'/deal'} className="absolute top-2 left-2 z-10 border border-shop_orange/50 p-1 rounded-full group-hover:border-shop_orange hover:text-shop_dark_green ">
             <Flame
               size={18}
               fill="#fb6c08"
-              className="text-shop_orange/50 group-hover:text-shop_orange hoverEffect"
+              className="text-shop_orange/50 group-hover:text-shop_orange "
             />
           </Link>
         )}
