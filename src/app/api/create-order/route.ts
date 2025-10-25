@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { client } from "@/sanity/lib/client";
+
 import { currentUser } from "@clerk/nextjs/server";
-import paymentLink from "razorpay/dist/types/paymentLink";
+
 
 export async function POST(req: Request) {
   try {
-      const {  razorpayPaymentId, name,amount,productName,productCategory,productBrand,productQuantity,createdAt,orderAmount,customerName,customerEmail,customerPhone,userAddress,customerAddress,paymentMode} =
+      const {  productName,productQuantity,orderAmount,customerPhone,userAddress,customerAddress,paymentMode} =
     await req.json();
   const user = await currentUser()
          if(!user){

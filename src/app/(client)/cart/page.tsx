@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Script from "next/script";
 
+
 const CartPage = () => {
     const {
         deleteCartProduct,
@@ -368,13 +369,26 @@ const CartPage = () => {
                                                         className="text-lg font-bold text-black"
                                                     />
                                                 </div>
-                                                <Button
+                                                {/* <Button
                                                     className="w-full rounded-full font-semibold tracking-wide hoverEffect"
                                                     size="lg"
                                                     disabled={loading}
                                                     onClick={handleCheckout}
                                                 >
                                                     {loading ? "Please wait..." : "Proceed to Checkout"}
+                                                </Button> */}
+
+                                                <Button asChild className="w-full">
+                                                    <Link href={{
+                                                        pathname: "/check-out",
+                                                        query: {
+                                                            price: getTotalPrice(),
+                                                            subTotal: getSubTotalPrice(),
+                                                            discount: getSubTotalPrice() - getTotalPrice()
+                                                        },
+                                                    }}
+                                                        passHref>Proceed to Checkout</Link>
+
                                                 </Button>
                                             </div>
                                         </div>

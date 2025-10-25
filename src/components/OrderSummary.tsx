@@ -1,32 +1,26 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+
 
 import PriceFormatter from './PriceFormatter'
 import useStore from '@/store';
-import { useUser } from '@clerk/nextjs';
+
 import { Separator } from './ui/separator';
-import { Button } from './ui/button';
+
 
 
 const OrderSummary = () => {
-    const [amount, setAmount] = useState<number>(0);
+
     const {
-        deleteCartProduct,
+
         getTotalPrice,
-        getItemCount,
+
         getSubTotalPrice,
-        resetCart,
+
     } = useStore();
 
-    const { user } = useUser()
-    const { isSignedIn } = useUser()
 
-    useEffect(() => {
-        if (user) {
 
-            setAmount(getTotalPrice())
-        }
-    }, [getTotalPrice, user])
+
 
 
 

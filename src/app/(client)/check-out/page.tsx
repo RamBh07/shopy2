@@ -29,7 +29,7 @@ const CheckOutPage = () => {
 
     console.log(selectedAddress);
 
-    // const isReadyToPay = isSignedIn && paymentMode !== "" && selectedAddress !== null;
+    const isReadyToPay = isSignedIn && paymentMode !== "" && selectedAddress !== null;
 
     console.log(selectedAddressTitle);
     console.log(selectedFullAddress);
@@ -116,12 +116,12 @@ const CheckOutPage = () => {
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <span>SubTotal</span>
-                            <PriceFormatter amount={price + Number(discountParam) * price / 100} />
+                            <PriceFormatter amount={price + Number(discountParam)} />
                         </div>
                         <div className="flex items-center justify-between">
                             <span>Discount</span>
                             <PriceFormatter
-                                amount={Number(discountParam) * price / 100}
+                                amount={Number(discountParam)}
                             />
                         </div>
                         <Separator />
@@ -161,7 +161,7 @@ const CheckOutPage = () => {
                     Proceed to Checkout
                 </Button> */}
 
-                <CounterWrapper price={price} name={""} productName={productName!} selectedAddress={selectedFullAddress!} selectedPaymentMode={selectedPaymentMode} imgUrl={imgUrl!} />
+                <CounterWrapper price={price} name={""} productName={productName!} selectedAddress={selectedFullAddress!} selectedPaymentMode={selectedPaymentMode} imgUrl={imgUrl!} isReady={isReadyToPay!} />
 
             </div>
         </div>

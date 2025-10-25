@@ -8,9 +8,8 @@ import { Flame } from "lucide-react";
 import AddToWishlist from "../AddToWishlist";
 import Title from "../Title";
 import PriceView from "../PriceView";
-import AddToCartButton from "../Buttons/AddToCartButton";
-import CheckoutButton from "../Buttons/CheckOutButton";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+
+
 import { Button } from "../ui/button";
 
 const ProductCard = ({ product }: { product: Product }) => {

@@ -203,11 +203,12 @@ type Props = {
   quantity: number,
   selectedAddr: string,
   paymentMode: string,
-  imgUrl: string
+  imgUrl: string,
+  isReady: boolean
 
 };
 
-const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selectedAddr, paymentMode, imgUrl }) => {
+const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selectedAddr, paymentMode, imgUrl, isReady }) => {
   const [loading, setLoading] = useState(false);
 
   const [userName, setUserName] = useState("");
@@ -238,80 +239,87 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selecte
       router.push("/sign-in"); // Redirect to login page
       return;
     }
+    if (!isReady) {
+      toast.error("Please Select Chekout Details")
+    } else {
 
-    try {
-      // 1️⃣ Create order session on server
-      const { data } = await axios.post("/api/create-order", {
-        amount: price,
-        userName: userName,
-        userEmail: customerEmail,
-        customerPhone: "9999999999",
-        productName: productName,
-        productQuantity: quantity,
-        createdAt: time,
-        customerAddress: selectedAddr,
-        paymentMode: paymentMode
 
-      });
+      try {
+        // 1️⃣ Create order session on server
+        const { data } = await axios.post("/api/create-order", {
+          amount: price,
+          userName: userName,
+          userEmail: customerEmail,
+          customerPhone: "9999999999",
+          productName: productName,
+          productQuantity: quantity,
+          createdAt: time,
+          customerAddress: selectedAddr,
+          paymentMode: paymentMode
 
-      if (!data.payment_session_id) {
-        alert("No payment session ID received");
-        return;
+        });
+
+        if (!data.payment_session_id) {
+          alert("No payment session ID received");
+          return;
+        }
+
+        const mode = process.env.NEXT_PUBLIC_CASHFREE_MODE;
+        if (mode !== "sandbox" && mode !== "production") {
+          throw new Error("Invalid CASHFREE_MODE. Must be 'sandbox' or 'production'.");
+        }
+
+        const cf = await load({ mode });
+
+        // 3️⃣ Start checkout
+        await cf.checkout({
+          paymentSessionId: data.payment_session_id,
+          redirectTarget: "_self",
+
+
+        });
+      } catch (err) {
+        console.error("Payment error:", err);
+        alert("Payment failed. Check console for details.");
+      } finally {
+        setLoading(false);
       }
-
-      const mode = process.env.NEXT_PUBLIC_CASHFREE_MODE;
-      if (mode !== "sandbox" && mode !== "production") {
-        throw new Error("Invalid CASHFREE_MODE. Must be 'sandbox' or 'production'.");
-      }
-
-      const cf = await load({ mode });
-
-      // 3️⃣ Start checkout
-      await cf.checkout({
-        paymentSessionId: data.payment_session_id,
-        redirectTarget: "_self",
-
-
-      });
-    } catch (err) {
-      console.error("Payment error:", err);
-      alert("Payment failed. Check console for details.");
-    } finally {
-      setLoading(false);
     }
-
 
   };
   const [isLoading, setIsLoading] = useState(false);
   const handleCashPayment = async () => {
-    setIsLoading(true);
-    try {
-      const orderId_ = `order_ ${crypto.randomUUID()}`
-      const { data } = await axios.post("/api/cash-payment", {
-        orderId: orderId_,
-        orderAmount: price,
-        customerName: userName,
-        customerEmail: customerEmail,
-        customerPhone: "9999999999",
-        productName: productName,
-        productQuantity: quantity,
-        createdAt: time,
-        customerAddress: selectedAddr,
-        paymentMode: paymentMode,
-        productImgUrl: imgUrl
+    if (!isReady) {
+      toast.error("Please Select Chekout Details")
+    } else {
+      setIsLoading(true);
+      try {
+        const orderId_ = `order_ ${crypto.randomUUID()}`
+        const { data } = await axios.post("/api/cash-payment", {
+          orderId: orderId_,
+          orderAmount: price,
+          customerName: userName,
+          customerEmail: customerEmail,
+          customerPhone: "9999999999",
+          productName: productName,
+          productQuantity: quantity,
+          createdAt: time,
+          customerAddress: selectedAddr,
+          paymentMode: paymentMode,
+          productImgUrl: imgUrl
 
-      })
-      if (data?.success) {
-        router.push(`/payment-success?orderId=${orderId_}`);
+        })
+        if (data?.success) {
+          router.push(`/payment-success?orderId=${orderId_}`);
+        }
+
+      } catch (err) {
+        console.error("Cash Payment error:", err);
+        alert("Payment failed. Check console for details.");
+      } finally {
+        setIsLoading(false)
       }
-
-    } catch (err) {
-      console.error("Cash Payment error:", err);
-      alert("Payment failed. Check console for details.");
-    } finally {
-      setIsLoading(false)
     }
-
   }
 
   return (
@@ -320,7 +328,7 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selecte
       {paymentMode === "Online" ? (<button
         onClick={handlePayment}
         className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
-        disabled={loading}
+        disabled={loading || !isReady}
       >
         {loading ? "Processing..." : "Buy Now"}
 

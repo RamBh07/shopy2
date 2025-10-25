@@ -12,23 +12,26 @@ type Props = {
     selectedAddress: string,
     selectedPaymentMode: string,
     imgUrl: string,
+    isReady: boolean
     //   productCategory:string,
     //   productBrand:string,
     //   productQuantity:number
 
 };
 
-const CheckoutButton: React.FC<Props> = ({ price, productName, selectedAddress, selectedPaymentMode, imgUrl }) => {
+const CheckoutButton: React.FC<Props> = ({ price, productName, selectedAddress, selectedPaymentMode, imgUrl, isReady }) => {
     const [quantity, setQuantity] = useState(1);
     const [productName_, setProductName_] = useState<string>('')
     const [selectedAddress_, setSelectedAddress_] = useState('')
     const [imgUrl_, setImgUrl_] = useState('')
+    const [isReady_, setIsReady_] = useState<boolean>(false)
     const [paymentMode_, setPaymentMode_] = useState('')
     useEffect(() => {
         setSelectedAddress_(selectedAddress)
         setPaymentMode_(selectedPaymentMode)
         setImgUrl_(imgUrl)
-    }, [imgUrl, selectedAddress, selectedPaymentMode])
+        setIsReady_(isReady)
+    }, [imgUrl, isReady, selectedAddress, selectedPaymentMode])
 
     const totalPrice = price * quantity;
 
@@ -47,7 +50,7 @@ const CheckoutButton: React.FC<Props> = ({ price, productName, selectedAddress, 
             </div>
 
 
-            <CheckOutButton price={totalPrice} productName={productName_} quantity={quantity} selectedAddr={selectedAddress_} paymentMode={paymentMode_} imgUrl={imgUrl_} />
+            <CheckOutButton price={totalPrice} productName={productName_} quantity={quantity} selectedAddr={selectedAddress_} paymentMode={paymentMode_} imgUrl={imgUrl_} isReady={isReady_} />
             {/* <Button
                 onClick={() => router.push("/check-out")}
                 className="mt-4"

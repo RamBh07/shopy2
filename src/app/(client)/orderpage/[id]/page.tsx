@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import Title from "@/components/Title";
 import Image from "next/image";
 import { getOrderById } from "@/lib/getOrders"; // we'll create this
-import { IndianRupee, CheckCircle, Clock, Truck, Package, MapPin } from "lucide-react";
+import { IndianRupee, MapPin } from "lucide-react";
 import React from "react";
 import OrderStatusTracker from "@/components/OrderStatusTracker";
 
@@ -26,8 +26,9 @@ interface RazorpayOrder {
     customerAddress: string,
 }
 
-const OrderDetailsPage = async ({ params }: { params: { id: string } }) => {
-    const orderId = params.id;
+const OrderDetailsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const { id } = await params; // ✅ no need to await
+    const orderId = id;
     const order: RazorpayOrder | null = await getOrderById(orderId);
 
     if (!order) {

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Product } from "@/sanity.types";
 import { Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+
 import ProductCard from "./ProductCard";
 import NoProductAvailable from "../NoProductAvailable";
 import Container from "../Container";

@@ -446,6 +446,7 @@ export type BlockContent = Array<{
 }>;
 
 export type Category = {
+  productCount: unknown;
   _id: string;
   _type: "category";
   _createdAt: string;
