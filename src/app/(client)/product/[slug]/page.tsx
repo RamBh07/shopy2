@@ -2,7 +2,7 @@
 import AddToCartButton from "@/components/Buttons/AddToCartButton";
 
 import Container from "@/components/Container";
-import CounterWrapper from "@/components/CountnerWrapper";
+
 
 import ImageView from "@/components/ImageView";
 import PriceView from "@/components/PriceView";
@@ -21,11 +21,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { FiShare2 } from "react-icons/fi";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
-import {
-    internalGroqTypeReferenceTo,
-    SanityImageCrop,
-    SanityImageHotspot,
-} from "@/sanity.types";
+
 import { urlFor } from "@/sanity/lib/image";
 
 

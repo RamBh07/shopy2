@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useUser, SignInButton } from "@clerk/nextjs";
-import OrderSummary from "@/components/OrderSummary";
+
 import { Button } from "@/components/ui/button";
 import Address from "@/components/Address";
-import CheckOutButton from "@/components/Buttons/CheckOutButton";
+
 import CounterWrapper from '@/components/CountnerWrapper';
 import { useSearchParams } from "next/navigation";
 import PriceFormatter from "@/components/PriceFormatter";
@@ -27,9 +27,9 @@ const CheckOutPage = () => {
 
     const price = priceParam ? Number(priceParam) : 0;
 
+    console.log(selectedAddress);
 
-
-    const isReadyToPay = isSignedIn && paymentMode !== "" && selectedAddress !== null;
+    // const isReadyToPay = isSignedIn && paymentMode !== "" && selectedAddress !== null;
 
     console.log(selectedAddressTitle);
     console.log(selectedFullAddress);

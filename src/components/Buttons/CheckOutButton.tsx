@@ -190,7 +190,7 @@ import axios from "axios";
 import { load } from "@cashfreepayments/cashfree-js";
 import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
@@ -212,8 +212,8 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selecte
 
   const [userName, setUserName] = useState("");
   const [customerEmail, setCustomerEmail] = useState('')
-  const [logedIn, setLogedIn] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+
+
 
   const time = new Date().toISOString()
   const { user } = useUser()
@@ -224,7 +224,7 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selecte
     if (user) {
       setUserName(user.fullName || '')
       setCustomerEmail(user.emailAddresses[0].emailAddress || '')
-      setLogedIn(true)
+
 
     }
   }, [user])
