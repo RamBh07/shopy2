@@ -246,8 +246,10 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selecte
 
       try {
         // 1️⃣ Create order session on server
+        const orderId_ = `order_ ${crypto.randomUUID()}`
         const { data } = await axios.post("/api/create-order", {
-          amount: price,
+          orderId: orderId_,
+          orderAmount: Number(price).toFixed(2),
           userName: userName,
           userEmail: customerEmail,
           customerPhone: "9999999999",

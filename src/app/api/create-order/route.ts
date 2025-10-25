@@ -21,22 +21,18 @@ export async function POST(req: Request) {
       "https://api.cashfree.com/pg/orders",
       {
         order_id: orderId,
-        order_amount: orderAmount,
+        order_amount: Number(orderAmount).toFixed(2),
         order_currency: "INR",
         customer_details: {
           customer_id: "cust_" + Date.now(),
           customer_name: userName_,
           customer_email: userEmail_,
           customer_phone: customerPhone,
-          productName: productName,
-          addreess: userAddress,
-          productQuantity: productQuantity,
-          customerAddress:customerAddress,
-          paymentMode:paymentMode
+       
           
         },
         order_meta: {
-          return_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment-status?order_id={order_id}`,
+          return_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment-success?order_id={orderId}`,
           notify_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/cashfree-webhook`,
         },
       },
