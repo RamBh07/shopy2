@@ -7,41 +7,50 @@ import CounterWrapper from "@/components/CountnerWrapper";
 import ImageView from "@/components/ImageView";
 import PriceView from "@/components/PriceView";
 import ProductCharacteristics from "@/components/Product/ProductCharacteristics";
+import { Button } from "@/components/ui/button";
 
 import { getProductBySlug } from "@/sanity/queries";
 
 
 import { CornerDownLeft, StarIcon, Truck } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+
 
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FiShare2 } from "react-icons/fi";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
-
+import {
+    internalGroqTypeReferenceTo,
+    SanityImageCrop,
+    SanityImageHotspot,
+} from "@/sanity.types";
+import { urlFor } from "@/sanity/lib/image";
 
 
 
 
 const SingleProductPage = async ({
     params,
+
 }: {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ slug: string }>,
 }) => {
 
 
     const { slug } = await params;
     const product = await getProductBySlug(slug);
 
+    const imageUrl = product?.images?.[0]
+        ? urlFor(product.images[0]).url()
+        : "/placeholder.png"; // fallback image
+
+
+
     if (!product) {
         return notFound();
     }
-
-
-
-
-
-
 
 
 
@@ -81,10 +90,25 @@ const SingleProductPage = async ({
                     </p>
                 </div>
                 <div>
-                    <div className="flex gap-5 items-center">
 
-                        <CounterWrapper price={product.price!} productName={product.name!} name={""} />
-                    </div>
+
+                    {/* <CounterWrapper price={product.price!} productName={product.name!} name={""} /> */}
+                    <Button asChild className="w-full">
+                        <Link href={{
+                            pathname: "/check-out",
+                            query: {
+                                productName: product.name,
+                                price: product.price,
+                                imgUrl: imageUrl,
+                                discount: product.discount,
+
+
+                            },
+                        }}
+                            passHref>Proceed to Checkout</Link>
+
+                    </Button>
+
 
                 </div>
                 <div className="flex items-center gap-2.5 lg:gap-3">

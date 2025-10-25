@@ -13,6 +13,23 @@
  */
 
 // Source: schema.json
+export type Newaddress = {
+  _id: string;
+  _type: "newaddress";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  email?: string;
+  phone?: number;
+  fulladdress?: string;
+  city?: string;
+  state?: string;
+  pin?: string;
+  default?: boolean;
+  createdAt?: string;
+};
+
 export type Neworder = {
   _id: string;
   _type: "neworder";
@@ -63,9 +80,12 @@ export type Razorpayorder = {
   userEmail?: string;
   amount?: number;
   productName?: string;
+  customerAddress?: string;
+  paymentMode?: string;
   productCategory?: string;
   productBrand?: string;
   productQuantity?: number;
+  productImgUrl?: string;
   productImage?: {
     asset?: {
       _ref: string;
@@ -426,7 +446,6 @@ export type BlockContent = Array<{
 }>;
 
 export type Category = {
-  productCount: unknown;
   _id: string;
   _type: "category";
   _createdAt: string;
@@ -569,7 +588,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Neworder | Razorpayorder | Post | Address | Blogcategory | Blog | Author | Order | Product | Brand | BlockContent | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Newaddress | Neworder | Razorpayorder | Post | Address | Blogcategory | Blog | Author | Order | Product | Brand | BlockContent | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/query.ts
 // Variable: BRANDS_QUERY

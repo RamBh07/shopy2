@@ -36,6 +36,16 @@ export const razorpayType= defineType({
       type: "string",
     }),
     defineField({
+      name: "customerAddress",
+      title: "Customer Address",
+      type: "string",
+    }),
+    defineField({
+      name: "paymentMode",
+      title: "Payment Mode",
+      type: "string",
+    }),
+    defineField({
       name: "productCategory",
       title: "Product Category",
       type: "string",
@@ -49,6 +59,11 @@ export const razorpayType= defineType({
       name: "productQuantity",
       title: "Product Quantity",
       type: "number",
+    }),
+    defineField({
+      name: "productImgUrl",
+      title: "Product ImgUrl",
+      type: "string",
     }),
 defineField({
   name: "productImage",

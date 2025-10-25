@@ -11,6 +11,7 @@ import { addressType } from "./addressType";
 import { post } from "./postType";
 import { razorpayType } from "./razorpayType";
 import {newOrderType} from "./newOrderType"
+import {newAddressType} from './newAddressType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -26,5 +27,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     post,
     razorpayType,
     newOrderType,
+    newAddressType,
   ],
 };

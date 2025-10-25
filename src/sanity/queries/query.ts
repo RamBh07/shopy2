@@ -90,6 +90,7 @@ const ORDER_ITEMS_QUERY = `*[_type == "razorpayorder" && userEmail == $userEmail
   productName,
   userEmail,
   productCategory,
+  productImgUrl,
   productBrand,
   productQuantity,
   "productImage": productImage.asset->url,
@@ -104,6 +105,21 @@ const ORDER_ITEMS_QUERY = `*[_type == "razorpayorder" && userEmail == $userEmail
     }
   `;
 
+  const GET_ADDRESS_BY_EMAIL = `*[_type == "newaddress" && email == $email]{
+  _id,
+  title,
+  email,
+  phone,
+  pin,
+  city,
+  state,
+fulladdress,
+isDefault
+}`;
+
+
+
+
 export {
   BRANDS_QUERY,
   LATEST_BLOG_QUERY,
@@ -116,5 +132,6 @@ export {
   BLOG_CATEGORIES,
   OTHERS_BLOG_QUERY,
   ORDER_ITEMS_QUERY,
-  GET_PRODUCT_BY_VARIANT
+  GET_PRODUCT_BY_VARIANT,
+  GET_ADDRESS_BY_EMAIL,
 };

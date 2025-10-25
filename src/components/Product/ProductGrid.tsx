@@ -10,6 +10,8 @@ import Container from "../Container";
 import HomeTabBar from "../Main/HomeTabBar";
 import { productType } from "@/constants/data";
 
+
+
 const ProductGridClient = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
@@ -58,6 +60,7 @@ const ProductGridClient = () => {
             ) : (
                 <NoProductAvailable selectedTab={selectedTab} />
             )}
+
         </Container>
     );
 };

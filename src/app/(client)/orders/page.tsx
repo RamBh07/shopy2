@@ -24,6 +24,7 @@ interface RazorpayOrder {
     status: string;
     createdAt: string;
     userEmail: string;
+    productImgUrl: string,
 }
 
 
@@ -48,56 +49,74 @@ const OrderPage = async () => {
     }
     return (
         <Container>
-            <Title className='mt-1' >
-                My  Orders
+            <Title className="mt-2 text-2xl font-semibold text-gray-800">
+                My Orders
             </Title>
-            <div>
+
+            <div className="mt-4 space-y-4">
                 {userOrders && userOrders.length > 0 ? (
                     userOrders.map((order: RazorpayOrder) => (
-                        <Link href={`/orders/${order._id}`} key={order._id}>
-                            <div className="flex justify-between items-center bg-shop_light_pink mt-2 pr-5 pt-1 rounded-md md:justify-center hover:opacity-80 shadow-sm">
+                        <div
+
+                            key={order._id}
+                            className="block"
+                        >
+                            <div className="group flex flex-col md:flex-row items-center md:items-start justify-between gap-4 bg-white border border-gray-200 hover:border-pink-400 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-4 sm:p-5">
                                 {/* Product Image */}
-                                <div>
-                                    <Image
-                                        src={order.productImage || "/products/product_1.png"}
-                                        alt={order.productName || "Product"}
-                                        width={200}
-                                        height={200}
-                                        className="rounded-md"
-                                    />
+                                <div className="flex-shrink-0">
+                                    <div className="overflow-hidden rounded-xl">
+                                        <Image
+                                            src={order.productImgUrl || "/products/product_1.png"}
+                                            alt={order.productName || "Product"}
+                                            width={180}
+                                            height={180}
+                                            className="rounded-xl object-cover w-[150px] h-[150px] sm:w-[180px] sm:h-[180px] group-hover:scale-105 transition-transform duration-300"
+                                        />
+                                    </div>
                                 </div>
 
                                 {/* Product Details */}
-                                <div className="space-y-0.5 w-full md:w-auto md:ml-6">
-                                    <p className="capitalize font-medium text-lg">
-                                        {order.productName || "Unknown Product"}
-                                    </p>
+                                <div className="flex-1 w-full md:w-auto">
+                                    <div className="flex flex-col justify-between h-full space-y-2">
+                                        <p className="capitalize font-semibold text-lg sm:text-xl text-gray-800">
+                                            {order.productName || "Unknown Product"}
+                                        </p>
 
-                                    <div className="flex justify-between">
-                                        <p className="text-gray-700">Quantity</p>
-                                        <p>{order.productQuantity || 1}</p>
+                                        <div className="flex justify-between text-sm sm:text-base text-gray-600">
+                                            <span>Quantity</span>
+                                            <span className="font-medium text-gray-900">
+                                                {order.productQuantity || 1}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex justify-between text-sm sm:text-base text-gray-600">
+                                            <span>Price</span>
+                                            <span className="flex items-center font-medium text-gray-900">
+                                                <IndianRupee size={15} className="mr-1" />
+                                                {order.amount || 0}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex justify-end">
+                                            <Link
+                                                href={`/orderpage/${order._id}`} // pass the ID in the URL
+                                                key={order._id}
+                                                className="text-sm px-4 py-1.5 rounded-full bg-pink-100 text-pink-700 font-medium hover:bg-pink-200 transition-colors duration-300"
+                                            >
+                                                View Details →
+                                            </Link>
+                                        </div>
                                     </div>
-
-                                    <div className="flex justify-between">
-                                        <p className="text-gray-700">Price</p>
-                                        <p className='flex items-center-safe'><IndianRupee size={15} opacity={0.8} />{order.amount || 0}</p>
-                                    </div>
-
-
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))
                 ) : (
-                    <div className="text-center text-gray-500 mt-4">
+                    <div className="text-center text-gray-500 mt-10 text-lg">
                         No Purchased Products
                     </div>
                 )}
-
-
             </div>
-
-
         </Container>
     )
 }

@@ -14,9 +14,9 @@ export default function Counter({ onChange }: { onChange?: (value: number) => vo
     const handleDecrease = () => setCount((prev) => (prev > 1 ? prev - 1 : 1));
 
     return (
-        <div className="flex items-center gap-3.5" >
-            <p>Increase Quantity : </p>
-            <div className="flex items-center justify-between gap-4 bg-white rounded-full shadow-md px-4 py-2 w-fit">
+        <div className="flex items-center  gap-3.5 w-full  justify-center " >
+            <p>Increase Quantity</p>
+            <div className="flex items-center justify-between gap-4 bg-white rounded-full shadow-md px-4 py-2 w-96">
 
                 <button
                     onClick={handleDecrease}

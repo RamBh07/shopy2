@@ -1,9 +1,11 @@
+import { client } from "../lib/client";
 import { sanityFetch } from "../lib/live";
 import {
   BLOG_CATEGORIES,
   BRAND_QUERY,
   BRANDS_QUERY,
   DEAL_PRODUCTS,
+ 
   GET_ALL_BLOG,
 
   LATEST_BLOG_QUERY,
@@ -169,6 +171,7 @@ const getOthersBlog = async (slug: string, quantity: number) => {
 };
 
 
+
 export {
   getCategories,
   getAllBrands,
@@ -182,5 +185,6 @@ export {
   getBlogCategories,
   getOthersBlog,
   getOrders,
+
 
 };

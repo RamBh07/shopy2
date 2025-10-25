@@ -10,11 +10,17 @@ import Title from "../Title";
 import PriceView from "../PriceView";
 import AddToCartButton from "../Buttons/AddToCartButton";
 import CheckoutButton from "../Buttons/CheckOutButton";
-
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
 
 const ProductCard = ({ product }: { product: Product }) => {
+
+  const imageUrl = product?.images?.[0]
+    ? urlFor(product.images[0]).url()
+    : "/placeholder.png"; // fallback image
+
   return (
-    <div className="text-sm border-[1px] rounded-md border-darkBlue/20 group bg-white">
+    <div className="text-sm border-[1px] rounded-md border-darkBlue/20 group bg-white relative">
 
 
       <div className="relative group overflow-hidden">
@@ -75,7 +81,24 @@ const ProductCard = ({ product }: { product: Product }) => {
           className="text-sm"
         />
         {/* <AddToCartButton product={product} className="w-36 rounded-full" /> */}
-        <CheckoutButton price={product.price!} productName={product.name!} quantity={0} />
+        {/* <CheckoutButton price={product.price!} productName={product.name!} quantity={0} selectedAddr={""} paymentMode={""} imgUrl={""} /> */}
+        <Button className="w-full md:w-auto px-6 py-3 text-center" asChild>
+          <Link
+            href={{
+              pathname: "/check-out",
+              query: {
+                productName: product.name,
+                price: product.price,
+                imgUrl: imageUrl,
+                discount: product.discount,
+              },
+            }}
+            passHref
+          >
+            Checkout
+          </Link>
+        </Button>
+
       </div>
 
 

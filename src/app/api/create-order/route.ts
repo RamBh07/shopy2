@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { client } from "@/sanity/lib/client";
 import { currentUser } from "@clerk/nextjs/server";
+import paymentLink from "razorpay/dist/types/paymentLink";
 
 export async function POST(req: Request) {
   try {
-      const {  razorpayPaymentId, name,amount,productName,productCategory,productBrand,productQuantity,createdAt,orderAmount,customerName,customerEmail,customerPhone} =
+      const {  razorpayPaymentId, name,amount,productName,productCategory,productBrand,productQuantity,createdAt,orderAmount,customerName,customerEmail,customerPhone,userAddress,customerAddress,paymentMode} =
     await req.json();
   const user = await currentUser()
          if(!user){
@@ -27,9 +28,11 @@ export async function POST(req: Request) {
           customer_name: userName_,
           customer_email: userEmail_,
           customer_phone: customerPhone,
-        productName: productName,
-      
-        productQuantity: productQuantity,
+          productName: productName,
+          addreess: userAddress,
+          productQuantity: productQuantity,
+          customerAddress:customerAddress,
+          paymentMode:paymentMode
           
         },
         order_meta: {
@@ -47,24 +50,16 @@ export async function POST(req: Request) {
       }
     );
      
-      // ✅ Store order in Sanity
-     const orderDoc= await client.create({
-        _type: "razorpayorder",
-        orderId: orderId,
-        paymentId: razorpayPaymentId,
-        userName: userName_,
-        userEmail:userEmail_,
-        amount: amount,
-        productName: productName,
-        productCategory: productCategory,
-        productBrand: productBrand,
-        productQuantity: productQuantity,
-        createdAt: createdAt
-    
-          });
-          console.log(orderDoc + "Orderdoc here is");
-console.log(response);
-    return NextResponse.json(response.data);
+  
+           const { payment_session_id } = response.data;
+   const paymentLink = `https://payments.cashfree.com/order/#/checkout?payment_session_id=${payment_session_id}`;
+    return NextResponse.json({
+      orderId,
+      paymentLink:paymentLink,
+      payment_session_id,
+
+      
+    });
   } catch (err) {
 console.log(err);
     return NextResponse.json({ error: "Failed" }, { status: 500 });

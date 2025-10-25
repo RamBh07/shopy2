@@ -189,28 +189,42 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { load } from "@cashfreepayments/cashfree-js";
 import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
 type Props = {
   price: number;
   // name: string;
   productName: string,
   // productCategory: string,
   // productBrand: string,
-  quantity: number
+  quantity: number,
+  selectedAddr: string,
+  paymentMode: string,
+  imgUrl: string
 
 };
 
-const CheckOutButton: React.FC<Props> = ({ price, productName, quantity }) => {
+const CheckOutButton: React.FC<Props> = ({ price, productName, quantity, selectedAddr, paymentMode, imgUrl }) => {
   const [loading, setLoading] = useState(false);
 
   const [userName, setUserName] = useState("");
   const [customerEmail, setCustomerEmail] = useState('')
+  const [logedIn, setLogedIn] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const time = new Date().toISOString()
   const { user } = useUser()
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
   useEffect(() => {
     if (user) {
       setUserName(user.fullName || '')
       setCustomerEmail(user.emailAddresses[0].emailAddress || '')
+      setLogedIn(true)
 
     }
   }, [user])
@@ -219,19 +233,24 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity }) => {
   const handlePayment = async () => {
     setLoading(true);
 
-
+    if (!isSignedIn) {
+      toast.success("Please Log in to purchase")
+      router.push("/sign-in"); // Redirect to login page
+      return;
+    }
 
     try {
       // 1️⃣ Create order session on server
       const { data } = await axios.post("/api/create-order", {
-        orderAmount: price,
-        customerName: userName,
-        customerEmail: customerEmail,
+        amount: price,
+        userName: userName,
+        userEmail: customerEmail,
         customerPhone: "9999999999",
         productName: productName,
         productQuantity: quantity,
         createdAt: time,
-
+        customerAddress: selectedAddr,
+        paymentMode: paymentMode
 
       });
 
@@ -260,17 +279,74 @@ const CheckOutButton: React.FC<Props> = ({ price, productName, quantity }) => {
     } finally {
       setLoading(false);
     }
-  };
 
+
+  };
+  const [isLoading, setIsLoading] = useState(false);
+  const handleCashPayment = async () => {
+    setIsLoading(true);
+    try {
+      const orderId_ = `order_ ${crypto.randomUUID()}`
+      const { data } = await axios.post("/api/cash-payment", {
+        orderId: orderId_,
+        orderAmount: price,
+        customerName: userName,
+        customerEmail: customerEmail,
+        customerPhone: "9999999999",
+        productName: productName,
+        productQuantity: quantity,
+        createdAt: time,
+        customerAddress: selectedAddr,
+        paymentMode: paymentMode,
+        productImgUrl: imgUrl
+
+      })
+      if (data?.success) {
+        router.push(`/payment-success?orderId=${orderId_}`);
+      }
+
+    } catch (err) {
+      console.error("Cash Payment error:", err);
+      alert("Payment failed. Check console for details.");
+    } finally {
+      setIsLoading(false)
+    }
+
+  }
 
   return (
-    <button
-      onClick={handlePayment}
-      className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-60"
-      disabled={loading}
-    >
-      {loading ? "Processing..." : "Buy Now"}
-    </button>
+
+    <div className="w-full">
+      {paymentMode === "Online" ? (<button
+        onClick={handlePayment}
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
+        disabled={loading}
+      >
+        {loading ? "Processing..." : "Buy Now"}
+
+
+      </button>) : <button
+        onClick={handleCashPayment}
+
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
+        disabled={loading}
+      >
+        {isLoading ? (
+          < div className="flex items-center justify-center gap-2">
+            <Loader2 className="animate-spin" size={18} />
+            Processing Payment...
+          </div>
+        ) : (
+          "Buy Now"
+        )}
+
+
+      </button>}
+
+    </div>
+
+
+
   );
 }
 
