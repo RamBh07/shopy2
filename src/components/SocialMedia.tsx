@@ -44,7 +44,7 @@ const SocialMedia = () => {
                         <TooltipTrigger asChild>
                             <a href={item.href}
                                 target="_blank" rel="noopener noreferrer"
-                                className={cn('p-2 border rounded-full hover:text-white hover:border-shop_light_green hoverEffect')} >{item.icon}</a>
+                                className={cn('p-2 border rounded-full text-shop_light_pink hover:text-white hover:border-shop_light_green hoverEffect')} >{item.icon}</a>
                         </TooltipTrigger>
                         <TooltipContent className={cn('bg-white text-darkColor font-semibold')}>
                             {item.title}
