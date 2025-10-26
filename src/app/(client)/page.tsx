@@ -1,4 +1,5 @@
 
+import Combox from "@/components/Combox";
 import Container from "@/components/Container";
 import HomeBanner from "@/components/Main/HomeBanner";
 // import HomeCategories from "@/components/HomeCategories";
@@ -13,6 +14,7 @@ export default async function Home() {
   // const categories = await getCategories(6);
   return (
     <Container>
+      <Combox />
       <HomeBanner />
       <ProductGrid />
       {/* <HomeCategories categories={categories} /> */}

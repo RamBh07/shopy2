@@ -32,7 +32,7 @@ export async function POST(req: Request) {
           
         },
         order_meta: {
-          return_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment-success?order_id={orderId}`,
+          return_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment-success?order_id=${orderId}`,
           notify_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/cashfree-webhook`,
         },
       },
