@@ -39,13 +39,13 @@ const SideMenu: FC<SidebarProps> = ({ isOpen, onClose, setOpen }) => {
                     <button onClick={onClose} className='hover:text-shop_light_green hoverEffect'><X size={30} /></button>
                 </div>
 
-                <div className={cn('flex flex-col space-y-3.5 font-semibold')}>
+                <div className={cn('flex flex-col space-y-5 font-semibold')}>
                     {headerData.map((item) => (
-                        <a target="_blank" rel="noopener noreferrer" href={item.href} key={item.title} className={`hover:text-shop_light_green hoverEffect ${pathName === item.href && 'text-shop_light_green'}`}>{item.title}</a>
+                        <a target="_blank" rel="noopener noreferrer" href={item.href} key={item.title} className={`hover:text-shop_light_green hoverEffect ${pathName === item.href ? 'text-shop_light_green' : 'text-white'}`}>{item.title}</a>
                     ))}
                 </div>
 
-                <div >
+                <div className='mt-10'>
                     <SocialMedia />
                 </div>
             </div>

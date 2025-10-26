@@ -1,4 +1,4 @@
-import { client } from "../lib/client";
+
 import { sanityFetch } from "../lib/live";
 import {
   BLOG_CATEGORIES,

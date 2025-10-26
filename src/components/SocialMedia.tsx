@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react'
+import { Instagram, Twitter, Youtube } from 'lucide-react'
 import React from 'react'
 import {
     Tooltip,
@@ -24,17 +24,13 @@ const socialLink = [
     },
     {
         title: "X",
-        href: 'https:',
+        href: 'https://x.com/BhriguramMahato',
         icon: <Twitter className='w-5 h-5' />
     },
-    {
-        title: "Facebook",
-        href: 'https:',
-        icon: <Facebook className='w-5 h-5' />
-    },
+
     {
         title: "Whatsapp",
-        href: 'https://www.youtube.com/',
+        href: 'https://wa.me/8637336983',
         icon: <FaWhatsapp className='w-5 h-5' />
     },
 ]
@@ -42,7 +38,7 @@ const socialLink = [
 const SocialMedia = () => {
     return (
         <TooltipProvider >
-            <div className={cn("flex items-center gap-3.5 ")}>
+            <div className={cn("flex items-center gap-5 ")}>
                 {socialLink.map((item) => (
                     <Tooltip key={item.title}>
                         <TooltipTrigger asChild>
